@@ -5215,7 +5215,9 @@ namespace ts {
                     // Report constraint errors only if the constraint is not the empty object type
                     const reportConstraintErrors = reportErrors && constraint !== emptyObjectType;
                     if (result = isRelatedTo(constraint, target, reportConstraintErrors)) {
-                        errorInfo = saveErrorInfo;
+                        if (reportErrors) {
+                            errorInfo = saveErrorInfo;
+                        }
                         return result;
                     }
                 }
@@ -5236,7 +5238,9 @@ namespace ts {
                         // Report structural errors only if we haven't reported any errors yet
                         const reportStructuralErrors = reportErrors && errorInfo === saveErrorInfo;
                         if (result = objectTypeRelatedTo(apparentType, source, target, reportStructuralErrors)) {
-                            errorInfo = saveErrorInfo;
+                            if (reportErrors) {
+                                errorInfo = saveErrorInfo;
+                            }
                             return result;
                         }
                     }
@@ -5614,7 +5618,9 @@ namespace ts {
                                 const related = signatureRelatedTo(s, t, shouldElaborateErrors);
                                 if (related) {
                                     result &= related;
-                                    errorInfo = saveErrorInfo;
+                                    if (reportErrors) {
+                                        errorInfo = saveErrorInfo;
+                                    }
                                     continue outer;
                                 }
                                 shouldElaborateErrors = false;
